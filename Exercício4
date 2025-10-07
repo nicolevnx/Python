@@ -1,0 +1,96 @@
+from dataclasses import dataclass
+from datetime import datetime
+
+@dataclass
+class Usuario:
+    nome: str
+    email: str
+    senha: str
+
+@dataclass
+class Postagem:
+    conteudo: str
+    descricao: str
+    autor: Usuario
+    dataEHora: datetime
+    curtida: int = 0
+
+listaU = []
+listaP = []
+logado = False
+usuario_logado = None  # Para armazenar o usuário autenticado
+
+def fazer_login():
+    global logado, usuario_logado
+    login_email = input("\nQual o seu email: ")
+    login_senha = input("Qual a sua senha: ")
+    for usuario in listaU:
+        if usuario.email == login_email and usuario.senha == login_senha:
+            print("\nAcesso autorizado")
+            logado = True
+            usuario_logado = usuario
+            return
+    print("\nEmail ou senha incorreto")
+
+def criar_usuario():
+    global logado, usuario_logado
+    print("\nHora de Criar o usuário")
+    nome = input("Qual o seu nome: ")
+    email = input("Qual o seu email: ")
+    senha = input("Qual a sua senha: ")
+    usuario = Usuario(nome, email, senha)
+    listaU.append(usuario)
+    logado = True
+    usuario_logado = usuario
+    print("Cadastro efetuado com sucesso")
+
+def menu():
+    global logado, usuario_logado
+    while True:
+        if len(listaU) == 0:
+            criar_usuario()
+        elif not logado:
+            fazer_login()
+        else:
+            print("\n --- Instagram 3.0 --- ")
+            print("1- Criar Publicacao")
+            print("2- Curtir Publicações")
+            print("3- Ver todas as publicações")
+            print("4- Ver Publicação Especifica")
+            print("5- Sair")
+            pergunta1 = input("\nDigite a opção: ")
+
+            if pergunta1 == "1":
+                conteudo = input("\nQual o conteudo: ")
+                descricao = input("Qual a descrição: ")
+                dataEHora = datetime.now()
+                postagem = Postagem(conteudo, descricao, usuario_logado, dataEHora)
+                listaP.append(postagem)
+                print("\nPublicação efetuada com sucesso")
+
+            elif pergunta1 == "2":
+                print("Funcionalidade ainda não implementada")
+
+            elif pergunta1 == "3":
+                for post in listaP:
+                    print(f"\nAutor: {post.autor.nome}")
+                    print(f"Conteúdo: {post.conteudo}")
+                    print(f"Descrição: {post.descricao}")
+                    print(f"Data: {post.dataEHora}")
+                    print(f"Curtidas: {post.curtida}")
+
+            elif pergunta1 == "4":
+                print("Funcionalidade ainda não implementada")
+
+            elif pergunta1 == "5":
+                logado = False
+                usuario_logado = None
+                print("Você saiu da conta.")
+            else:
+                print("\nEscreve algo que preste")
+
+if __name__ == "__main__":
+    menu()
+# Online Python compiler (interpreter) to run Python online.
+# Write Python 3 code in this online editor and run it.
+print("Try programiz.pro")
