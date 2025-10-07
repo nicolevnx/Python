@@ -1,0 +1,69 @@
+from dataclasses import dataclass
+
+
+@dataclass
+class Paciente:
+    nome: str
+    idade: int
+    prioridade: str
+    sintoma: str
+
+def menu():
+    print("\n--- Sistema Hospitalar ---")
+    print("1 - Cadastrar Paciente")
+    print("2 - Idade dos Pacientes")
+    print("3 - Listar todos os Pacientes")
+    print("4 - Atender Paciente")
+    print("0 - Sair")
+    return input("Escolha uma opção: ")
+
+lista = []
+
+
+while True:
+
+    opcao = menu()
+
+
+    if opcao == "1":
+        nome = input("Nome do Paciente: ")
+        idade = int(input("Idade do paciente: "))
+        prioridade = (input("Prioridade Alta = Y |Prioridade Baixa = Outra Letra: "))
+        sintoma = input("Sintoma do Paciente: ")
+        paciente = Paciente(nome, idade, prioridade, sintoma)
+        lista.append(paciente)
+
+    elif opcao == "2":
+        if lista == []:
+            print("\nNenhum Paciente Cadastrado")
+        else:
+            for paciente in lista:
+                print(f"\nNome: {paciente.nome} | Idade: {paciente.idade}")
+
+    elif opcao == "3":
+        if lista == []:
+            print("\nNenhum Paciente Cadastrado")
+        else:
+            num = 1
+            for paciente in lista:
+                tipo = "Prioritario" if paciente.prioridade == "Y" else "Normal"
+                print(f"\n{num}. Nome: {nome} | Idade: {idade} | Tipo: {tipo} | Sintoma: {sintoma}")
+                num += 1
+
+    elif opcao == "4":
+        if lista == []:
+            print("\nNenhum Paciente para ser atendido")
+        else:
+            lista.pop(0)
+            print("\nPaciente Atendido")
+
+
+    elif opcao == "0":
+        print("\nSaindo do Sistema")
+        break
+
+    else:
+        print("\nErrooo, escreva algum numero certo")
+
+
+
